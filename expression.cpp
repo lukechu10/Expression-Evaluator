@@ -21,7 +21,6 @@ long double Expression::compute() {
       if (isdigit(temp[0]) || temp[0] == '-') {
         // push number to numStack
         numStack.push(stold(temp));
-        cout << "numStack.top(): " << numStack.top() << endl;
         // reset temp value
         temp = "";
       }
@@ -51,7 +50,8 @@ long double Expression::compute() {
       long double tempNum2 = numStack.top();
       numStack.pop();
 
-      cout << "1: " << tempNum1 << "\t2: " << tempNum2 << endl;
+      cout << "Computing " << tempNum1 << " " << this->postfixExpression[pos]
+           << " " << tempNum2 << endl;
       // select operator
       switch (this->postfixExpression[pos]) {
       case '+':
