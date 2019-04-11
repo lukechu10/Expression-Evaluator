@@ -5,7 +5,7 @@ using std::string;
 
 class Expression {
 public:
-  // parse expression from string
+  // parse expression from infix string
   Expression(string);
 
   static string infixToPostfix(string);

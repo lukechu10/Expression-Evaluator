@@ -1,5 +1,5 @@
-expression.out: main.o expression.o postfixExpression.o
-	g++ -o expression.out main.o expression.o postfixExpression.o
+expression.out: main.o expression.o
+	g++ -o expression.out main.o expression.o
 	rm *.o
 	./expression.out
 
@@ -8,9 +8,6 @@ main.o: main.cpp expression.hpp
 
 expression.o: expression.cpp expression.hpp
 	g++ -c expression.cpp --std=c++17
-
-postfixExpression.o: postfixExpression.cpp postfixExpression.hpp
-	g++ -c postfixExpression.cpp --std=c++17
 
 clean:
 	rm *.o expression.out
