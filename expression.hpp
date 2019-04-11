@@ -8,10 +8,22 @@ public:
   // parse expression from postfix string
   Expression(string str);
 
-  static string infixToPostfix(string);
-
   string getPostfixString();
   long double compute();
+
+  static string infixToPostfix(string);
+  // returns if character is an operator
+  static bool isOperator(char &c) {
+    switch (c) {
+    case '+':
+    case '-':
+    case '*':
+    case '/':
+      return true;
+    default:
+      return false;
+    }
+  }
 
 private:
   string postfixExpression = "";
