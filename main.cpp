@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include <string>
 using namespace std;
 #include "expression.hpp"
@@ -18,7 +19,16 @@ int main() {
     if (temp == "") {
       continue;
     }
-    cout << Expression(temp).compute() << endl;
+    long double tempResult = Expression(temp).compute(); // compute string
+
+    // make sure result is NAN
+    if (tempResult != tempResult) {
+      continue;
+    }
+    // print result
+    else {
+      cout << "Result: " << tempResult << endl;
+    }
   }
   return 0;
 }

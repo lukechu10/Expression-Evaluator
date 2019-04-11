@@ -44,6 +44,11 @@ long double Expression::compute() {
       if (isdigit(this->postfixExpression[pos + 1])) {
         break;
       }
+      // make sure there are more than 2 numbers on stack
+      if (numStack.size() < 2) {
+        cout << "Error: Missing numbers\n";
+        return NAN;
+      }
       // save numbers to variables
       long double tempNum1 = numStack.top();
       numStack.pop();
@@ -72,6 +77,10 @@ long double Expression::compute() {
       break;
     }
   }
-  cout << "Stack size: " << numStack.size() << endl;
+  // make sure stack is empty
+  if (numStack.size() != 1) {
+    cout << "Error: Missing operators\n";
+    return NAN;
+  }
   return numStack.top();
 }
