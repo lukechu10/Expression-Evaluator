@@ -15,8 +15,7 @@ long double Expression::compute() {
   stack<long double, vector<long double>> numStack; // stack for number values
   string temp = ""; // temp string for storing values seperated by whitespace
   for (int pos = 0; pos < this->postfixExpression.length(); pos++) {
-
-    // if whitespace, push read value to stack
+    // if whitespace, push number value to stack
     if (this->postfixExpression[pos] == ' ') {
       if (isdigit(temp[0]) || temp[0] == '-') {
         // push number to numStack
@@ -55,9 +54,11 @@ long double Expression::compute() {
       long double tempNum2 = numStack.top();
       numStack.pop();
 
-      cout << "Computing " << tempNum1 << " " << this->postfixExpression[pos]
-           << " " << tempNum2 << endl;
-      // select operator
+      // uncomment for debug use
+
+      // cout << "Computing " << tempNum2 << " " << this->postfixExpression[pos]
+      // << " " << tempNum1 << endl; select operator
+
       switch (this->postfixExpression[pos]) {
       case '+':
         numStack.push(tempNum1 + tempNum2);
@@ -69,7 +70,7 @@ long double Expression::compute() {
         numStack.push(tempNum1 * tempNum2);
         break;
       case '/':
-        numStack.push(tempNum1 / tempNum2);
+        numStack.push(tempNum2 / tempNum1);
         break;
       }
     }

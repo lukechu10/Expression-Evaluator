@@ -27,7 +27,7 @@ int main() {
     }
     // print result
     else {
-      cout << "Result: " << tempResult << endl;
+      cout << "= " << tempResult << endl;
     }
   }
   return 0;
