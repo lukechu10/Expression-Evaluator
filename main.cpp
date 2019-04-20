@@ -14,11 +14,7 @@ void terminateHandler() {
 int main() {
   // set terminate handler
   std::set_terminate(terminateHandler);
-  try {
-    cout << Expression::infixToPostfix("10 + 122 - 10") << endl;
-  } catch (exception &e) {
-    cout << e.what();
-  }
+
   cout << "expression parser v0.0.1\n";
   cout << "Type any expression in postfix notation. Type \"exit\" to exit "
           "program.\n";

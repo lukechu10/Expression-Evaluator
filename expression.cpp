@@ -15,8 +15,9 @@ long double Expression::compute() {
   stack<long double, vector<long double>> numStack; // stack for number values
   string temp = ""; // temp string for storing values seperated by whitespace
   for (int pos = 0; pos < this->postfixExpression.length(); pos++) {
-    // if whitespace, push number value to stack
-    if (this->postfixExpression[pos] == ' ') {
+    // if whitespace or end of string, push number value to stack
+    if (this->postfixExpression[pos] == ' ' ||
+        pos == this->postfixExpression.length() - 1) {
       if (isdigit(temp[0]) || temp[0] == '-') {
         // push number to numStack
         numStack.push(stold(temp));
@@ -104,6 +105,7 @@ short int Expression::precedence(char &c) {
 string Expression::infixToPostfix(string infix) {
   // throw invalid_argument("test");
   string postfix = "";
+  postfix.reserve(2 * infix.length()); // reserve memory to prevent allocation
   stack<char, vector<char>> opStack;
 
   for (int pos = 0; pos < infix.length(); pos++) {
@@ -175,7 +177,7 @@ opStack.pop();
   }
 
   // remove redundant space
-  // postfix.pop_back();
-  // return result
+  postfix.pop_back();
+  postfix.shrink_to_fit(); // save memory
   return postfix;
 }
