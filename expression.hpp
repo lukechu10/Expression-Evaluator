@@ -19,6 +19,8 @@ public:
     case '-':
     case '*':
     case '/':
+    case '(':
+    case ')':
       return true;
     default:
       return false;
@@ -27,4 +29,5 @@ public:
 
 private:
   string postfixExpression = "";
+  static short int precedence(char &c);
 };

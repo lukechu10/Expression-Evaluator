@@ -14,3 +14,6 @@ clean:
 
 cleanObj:
 	rm *.o
+
+cleanCoreDump:
+	rm core.expression.out.*
