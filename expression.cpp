@@ -1,4 +1,4 @@
-#include <iostream> // for testing
+#include <iostream> // for std::exception
 
 #include <cmath>
 #include <stack>
@@ -46,8 +46,7 @@ long double Expression::compute() {
       }
       // make sure there are more than 2 numbers on stack
       if (numStack.size() < 2) {
-        cout << "Error: Missing numbers\n";
-        return NAN;
+        throw invalid_argument("Syntax Error: Missing operands in argument");
       }
       // save numbers to variables
       long double tempNum1 = numStack.top();
@@ -81,8 +80,7 @@ long double Expression::compute() {
   }
   // make sure stack is empty
   if (numStack.size() != 1) {
-    cout << "Error: Missing operators\n";
-    return NAN;
+    throw invalid_argument("Syntax Error: Missing operators in argument");
   }
   return numStack.top();
 }
@@ -126,39 +124,43 @@ string Expression::infixToPostfix(string infix) {
     if (isOperator(infix[pos])) {
       // highest precedence
       // push without popping operators
-      if (infix[pos] == '(')
+      if (infix[pos] == '(') {
         opStack.push(infix[pos]);
+      }
 
       // append operators until openning parenthesis is found
       // !opStack.empty()
       else if (infix[pos] == ')') {
         while (!opStack.empty()) {
           if (opStack.top() == '(') {
+            cout << opStack.size();
             break;
-          } else {
+          }
+
+          else {
             postfix.push_back(opStack.top());
             postfix.push_back(' ');
+
             opStack.pop();
+            continue;
           }
         }
-        /*
-// error
-if (opStack.empty())
-throw invalid_argument(
-"Syntax Error: Missing matching opening parenthesis for closing "
-"parenthesis.\n\tFound at pos " +
-to_string(pos));
-else
-// pop '('
-opStack.pop();
-                */
+        if (opStack.empty()) {
+          throw invalid_argument(
+              "Syntax Error: Missing matching opening parenthesis for closing "
+              "parenthesis.\n\tFound at pos " +
+              to_string(pos));
+        } else {
+          opStack.pop();
+        }
       }
 
       // normal operator
       else {
         // pop until precedence is equal or bigger
         while (!opStack.empty() && /*smaller precedence than top of stack*/
-               precedence(infix[pos]) <= precedence(opStack.top())) {
+               precedence(infix[pos]) <= precedence(opStack.top()) &&
+               opStack.top() != '(') {
 
           postfix.push_back(opStack.top());
           postfix.push_back(' ');
@@ -171,13 +173,21 @@ opStack.pop();
 
   // clear stack
   while (!opStack.empty()) {
-    postfix.push_back(opStack.top());
-    postfix.push_back(' ');
-    opStack.pop();
+    // make sure is not opening parenthesis
+    if (opStack.top() == '(') {
+      throw invalid_argument(
+          "Syntax Error: Missing matching closing "
+          "parenthesis for closing opening parenthesis. \n\tReached end of "
+          "expression without matching closing parenthesis.");
+    }
+
+    else {
+      postfix.push_back(opStack.top());
+      postfix.push_back(' ');
+      opStack.pop();
+    }
   }
 
-  // remove redundant space
-  postfix.pop_back();
   postfix.shrink_to_fit(); // save memory
   return postfix;
 }

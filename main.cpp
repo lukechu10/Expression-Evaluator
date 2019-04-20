@@ -32,14 +32,12 @@ int main() {
     }
     try {
       Expression tempExpression(Expression::infixToPostfix(temp));
-      // make sure result is NAN
-      if (tempExpression.compute() != tempExpression.compute()) {
-        continue;
-      }
       // print result
-      else {
-        cout << "= " << tempExpression.compute() << endl;
-      }
+      cout << "Postfix notation: " << tempExpression.getPostfixString() << endl;
+
+      long double result = tempExpression.compute();
+      cout << "= " << result << endl;
+
     } catch (exception &e) {
       cout << e.what() << endl;
     }
